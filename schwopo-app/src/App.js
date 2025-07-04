@@ -9,7 +9,8 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
-
+import MessageHistory from "./components/MessageHistory.jsx"
+import FriendList from "./components/FriendList.jsx"
 
 function SendButton() {
   return <Button variant="contained">Send</Button>;
@@ -17,52 +18,6 @@ function SendButton() {
 
 function MessageInput() {
   return <TextField label="Write your message" variant="outlined" sx={{flexGrow: 1}}/>;
-}
-
-function Message({message, author})
-{
-  return (
-    <Typography>
-      {author}: {message}
-    </Typography>
-  )
-}
-
-function MessageHistory()
-{
-  const [messageList, setMessageList] = useState([]);
-  return (
-    <Box sx={{flex: 1}}>
-      <Message
-        author="manull"
-        message="Hello everynyan"
-      />
-    </Box>
-  )
-}
-
-function FriendList()
-{
-  const [names, setNames] = useState(["Pedro", "Albertus", "TheKiller99"]);
-
-  const nameItems = names.map((name) => 
-    <Paper sx={{padding:1}}>
-      <Stack direction={"row"} spacing={2} alignItems={"center"}>
-        <Avatar>{name[0]}</Avatar>
-        <Typography>
-          {name}
-        </Typography>
-      </Stack>
-    </Paper>
-  );
-
-  return (
-    <Box sx={{ height: "100%"}}>
-      <Stack spacing={2}>
-        {nameItems}
-      </Stack>
-    </Box>
-  )
 }
 
 function App() {
