@@ -1,25 +1,17 @@
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-import { useState } from 'react';
+import { useContext } from 'react';
 import Message from "./Message.jsx";
+import { MessagingContext } from './MessagingContext.js';
+import Typography from '@mui/material/Typography';
 
 function MessageHistory()
 {
-  const [messageList, setMessageList] = useState([
+  const { messaging } = useContext(MessagingContext);
+  const messageList = messaging ?
+    messaging.chats[messaging.activePartnerId]?.messages : [];
+    console.log(messaging);
 
-    {
-      author: "manull",
-      message: "hello everynyan"
-    },
-    {
-      author: "manull",
-      message: "how are you"
-    },
-    {
-      author: "manull",
-      message: "fine thank you"
-    },
-  ]);
 
   const messageJsx = messageList.map( (message) =>
       <Message
@@ -30,7 +22,10 @@ function MessageHistory()
 
   return (
     <Box sx={{flex: 1}}>
-      <Stack>
+      <Stack spacing={2}>
+        <Typography>
+          Chat with {messaging?.activePartnerId || "nobody"}:
+        </Typography>
         {messageJsx}
       </Stack>
     </Box>
