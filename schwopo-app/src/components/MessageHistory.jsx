@@ -7,11 +7,9 @@ import Typography from '@mui/material/Typography';
 
 function MessageHistory()
 {
-  const { messaging } = useContext(MessagingContext);
-  const messageList = messaging ?
-    messaging.chats[messaging.activePartnerId]?.messages : [];
-    console.log(messaging);
+  const { state } = useContext(MessagingContext);
 
+  const messageList = state.chats[state.activePartnerId]?.messages || [];
 
   const messageJsx = messageList.map( (message) =>
       <Message
@@ -24,7 +22,7 @@ function MessageHistory()
     <Box sx={{flex: 1}}>
       <Stack spacing={2}>
         <Typography>
-          Chat with {messaging?.activePartnerId || "nobody"}:
+          Chat with {state.activePartnerId || "nobody"}:
         </Typography>
         {messageJsx}
       </Stack>

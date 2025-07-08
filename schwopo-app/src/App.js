@@ -14,7 +14,7 @@ import FriendList from "./components/FriendList.jsx"
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import {Chat, Messaging} from "./api/Messaging.js"
-import { MessagingContext } from "./components/MessagingContext";
+import { MessagingProvider } from "./components/MessagingContext";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB9TnvJ1q4kPrKmQDhJlebYQS5bqzhgg_U",
@@ -78,30 +78,31 @@ function MessageInput() {
 function App() {
   return (
     <>
-    <MessagingContext.Provider value={new Messaging()}>
-    <Container sx={{height: "100vh", padding: 2}}>
-      <Paper sx={{height: "100%", padding:2}}>
-
-      <Grid container spacing={2} sx={{height: "100%"}}>
-        <Grid size={4}>
-          <Paper sx={{height: "100%", padding: 1, bgcolor: "ButtonFace"}}>
-            <FriendList />
+      <MessagingProvider>
+        <Container sx={{ height: "100vh", padding: 2 }}>
+          <Paper sx={{ height: "100%", padding: 2 }}>
+            <Grid container spacing={2} sx={{ height: "100%" }}>
+              <Grid size={4}>
+                <Paper
+                  sx={{ height: "100%", padding: 1, bgcolor: "ButtonFace" }}
+                >
+                  <FriendList />
+                </Paper>
+              </Grid>
+              <Grid size={8}>
+                <Paper sx={{ height: "100%", padding: 2 }}>
+                  <Stack sx={{ height: "100%" }}>
+                    <MessageHistory />
+                    <Stack direction={"row"}>
+                      <MessageInput />
+                    </Stack>
+                  </Stack>
+                </Paper>
+              </Grid>
+            </Grid>
           </Paper>
-        </Grid>
-        <Grid size={8}>
-            <Paper sx={{height: "100%", padding: 2}}>
-          <Stack sx={{height: "100%"}}>
-              <MessageHistory />
-            <Stack direction={"row"}>
-              <MessageInput />
-            </Stack>
-          </Stack>
-            </Paper>
-        </Grid>
-      </Grid>
-      </Paper>
-    </Container>
-</MessagingContext.Provider>
+        </Container>
+      </MessagingProvider>
     </>
   );
 }
