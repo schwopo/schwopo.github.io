@@ -1,5 +1,5 @@
 import { useEffect, useRef, useReducer, createContext } from "react";
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const firebaseConfig = {
@@ -11,9 +11,11 @@ const firebaseConfig = {
   appId: "1:1099486094427:web:13cb3d2e53306578b74b7e",
 };
 
-export const AuthContext = createContext({
-  loggedInUser: null,
-});
+const authObject =  {
+	  loggedInUser: null,
+}
+
+export const AuthContext = createContext(authObject)
 
 export function AuthContextProvider({ children }) {
   const app = useRef(null);
@@ -34,30 +36,39 @@ export function AuthContextProvider({ children }) {
     }
   };
 
-  const signIn = (email, password) => {
-    const auth = getAuth(app);
+  const [state, dispatch] = useReducer(authReducer, authObject);
+
+  const signIn = (email, password, onSuccess, onFailure) => {
+    console.log("Signing in with email:", email);
+    const auth = getAuth(getApp());
+    console.log(auth);
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in successfully!
         const user = userCredential.user;
         console.log("User signed in:", user);
-        // You can now redirect the user to their dashboard, update UI, etc.
-      })
 
+        dispatch({
+	  type: "LOGIN",
+	  payload: email
+        });
+	onSuccess();
+
+      })
       .catch((error) => {
         // Handle errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
         console.error("Error signing in:", errorCode, errorMessage);
         // Display error message to the user (e.g., "Invalid credentials", "User not found")
-      });
+	onFailure(errorMessage);
+      }) ;
   }
 
 
-  const [state, dispatch] = useReducer(authReducer, AuthContext);
 
   return (
-    <AuthContext.Provider value={{ AuthContext, state, dispatch, signIn }}>
+    <AuthContext.Provider value={{ state, dispatch, signIn }}>
       {children}
     </AuthContext.Provider>
   );

@@ -17,7 +17,7 @@ function FriendList()
   };
 
   const nameItems = names.map((name) => 
-    <Paper sx={{padding:1, cursor: "pointer"}} onClick={() => setUser(name)}>
+    <Paper sx={{padding:1, cursor: "pointer"}} onClick={() => setUser(name)} key={name}>
       <Stack direction={"row"} spacing={2} alignItems={"center"}>
         <Avatar>{name[0]}</Avatar>
         <Typography variant="button">

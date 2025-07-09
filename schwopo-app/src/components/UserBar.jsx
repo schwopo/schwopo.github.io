@@ -1,14 +1,14 @@
 import { useContext } from "react";
-import { MessagingContext } from "./MessagingContext";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
+import { AuthContext } from "./AuthContext";
 
 export function UserBar() {
-  const { state } = useContext(MessagingContext);
-  const user = state.loggedInUser || "Nobody";
+  const { state } = useContext(AuthContext);
+  const user = state.loggedInUser || "No user body";
 
   return (
     <>
