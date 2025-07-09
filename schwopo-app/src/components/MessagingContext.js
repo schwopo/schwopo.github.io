@@ -1,6 +1,11 @@
 import { createContext, useReducer } from 'react';
-import { Messaging } from '../api/Messaging.js';
 import { AuthContextProvider } from './AuthContext.jsx';
+
+export class Messaging {
+  constructor() {
+    this.activePartnerId = null;
+  }
+}
 
 export const MessagingContext = createContext(new Messaging());
 

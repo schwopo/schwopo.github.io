@@ -8,27 +8,6 @@ import MessageHistory from "./MessageHistory";
 import { useState } from "react";
 import UserBar from "./UserBar";
 
-function MessageInput() {
-  const [input, setInput] = useState("");
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter" && input.trim() !== "") {
-      //messageList.push(input);
-      setInput("");
-    }
-  };
-
-  return (
-    <TextField
-      label="Write your message"
-      variant="outlined"
-      sx={{ flexGrow: 1 }}
-      value={input}
-      onChange={e => setInput(e.target.value)}
-      onKeyDown={handleKeyDown}
-    />
-  );
-}
 
 function ChatScreen() {
   return (

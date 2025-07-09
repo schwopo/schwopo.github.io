@@ -5,11 +5,11 @@ import Message from "./Message.jsx";
 import { MessagingContext } from './MessagingContext.js';
 import Typography from '@mui/material/Typography';
 
-function MessageHistory()
+function MessageHistory({ partnerId })
 {
   const { state } = useContext(MessagingContext);
 
-  const messageList = state.chats[state.activePartnerId]?.messages || [];
+  const messageList = [];
 
   const messageJsx = messageList.map( (message) =>
       <Message
