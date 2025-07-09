@@ -2,8 +2,7 @@ import React, { useState, useContext } from "react";
 import TextField from "@mui/material/TextField";
 import { MessagingContext } from "./MessagingContext.js";
 
-
-function MessageInput() {
+export function MessageInput() {
   const [input, setInput] = useState("");
 
   const handleKeyDown = (e) => {
@@ -24,3 +23,5 @@ function MessageInput() {
     />
   );
 }
+
+export default MessageInput;

@@ -9,7 +9,7 @@ import { MessagingContext } from './MessagingContext.js';
 function FriendList()
 {
   const { state, dispatch } = useContext(MessagingContext);
-  const names = state.friends || [];
+  const names = ["Alice", "Bob", "Charlie"];
 
   const setUser = (name) => {
     console.log("Setting active partner to:", name);

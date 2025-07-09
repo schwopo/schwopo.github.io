@@ -7,6 +7,7 @@ export class Messaging {
   }
 }
 
+
 export const MessagingContext = createContext(new Messaging());
 
 export const MessagingProvider = ({ children }) => {

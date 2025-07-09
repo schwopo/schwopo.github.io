@@ -5,6 +5,7 @@ import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import FriendList from "./FriendList";
 import MessageHistory from "./MessageHistory";
+import MessageInput from "./MessageInput";
 import { useState } from "react";
 import UserBar from "./UserBar";
 
@@ -25,9 +26,7 @@ function ChatScreen() {
               <Paper sx={{ height: "100%", padding: 2 }}>
                 <Stack sx={{ height: "100%" }}>
                   <MessageHistory />
-                  <Stack direction={"row"}>
                     <MessageInput />
-                  </Stack>
                 </Stack>
               </Paper>
             </Grid>
