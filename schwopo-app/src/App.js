@@ -6,18 +6,13 @@ import ChatScreen from "./components/ChatScreen";
 import SignInScreen from "./components/SignInScreen";
 import LandingScreen from "./components/LandingScreen";
 import { BrowserRouter, Routes, Route} from "react-router";
+import Routing from "./components/Routing";
 
 function App() {
   return (
     <>
       <MessagingProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<LandingScreen />} />
-            <Route path="chat" element={<ChatScreen />} />
-            <Route path="login" element={<SignInScreen />} />
-          </Routes>
-        </BrowserRouter>
+        <Routing/>
       </MessagingProvider>
     </>
   );

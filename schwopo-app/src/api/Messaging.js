@@ -8,7 +8,6 @@ export class Chat {
 export class Messaging {
   constructor() {
     this.chats = {};
-    this.myUserId = null;
     this.activePartnerId = null;
     this.friends = [];
 
@@ -25,7 +24,6 @@ export class Messaging {
     chat.partnerId = "rick";
     this.chats[chat.partnerId] = chat;
     this.activePartnerId = chat.partnerId;
-    this.myUserId = "manull";
     this.friends = ["rick", "morty", "summer", "beth", "jerry"];
   }
 }
