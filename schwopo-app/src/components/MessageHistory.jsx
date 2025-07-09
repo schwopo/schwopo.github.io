@@ -7,29 +7,49 @@ import Typography from '@mui/material/Typography';
 import {getApp} from "firebase/app"; 
 import {getFirestore, collection, addDoc, getDocs, where} from "firebase/firestore"; 
 
+async function fetchMessages(activePartnerId) {
+    const db = getFirestore(getApp());
+
+    const querySnapshot = await getDocs(
+      collection(db, "messages"),
+      where("participants", "array-contains", "manull") // HEEEEEEEEEEEEEEEEEEEEEY USE REAL USER ID HERE
+    );
+
+    console.log("Messages fetched successfully");
+
+    var messages = [];
+
+    querySnapshot.forEach((doc) => {
+
+      console.log(`${doc.id} =>`, doc.data());
+
+      if (doc.data().participants.includes(activePartnerId)) {
+        console.log( "Found messages for active partner:", activePartnerId);
+        console.log( "Found messages:", doc.data().messages);
+        messages = doc.data().messages;
+      }
+    });
+
+    return messages;
+}
+
 function MessageHistory() {
   const { state } = useContext(MessagingContext);
   const [messageList, setMessageList] = useState([]);
 
   useEffect(() => {
-    const db = getFirestore(getApp());
     setMessageList([]);
+    fetchMessages(state.activePartnerId)
+      .then((messages) => {
+        console.log("Fetched messages:", messages);
+        if (messages) {
+          setMessageList(messages);
+        } else {
+          console.log("No messages found for active partner:", state.activePartnerId);
+        }
+      });
 
-    const querySnapshot = getDocs(
-      collection(db, "messages"),
-      where("participants", "array-contains", "manull")
-  ).then(
-      (querySnapshot) => {
-        console.log("Messages fetched successfully");
-        querySnapshot.forEach((doc) => {
-          console.log(`${doc.id} =>`, doc.data());
-          if (doc.data().participants.includes(state.activePartnerId)) {
-            console.log("Found messages for active partner:", state.activePartnerId);
-            setMessageList(doc.data().messages);
-          }
-        });
-      }
-    );
+
   }, [state.activePartnerId]);
 
   const messageJsx = messageList.map((message) => (
