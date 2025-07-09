@@ -20,7 +20,7 @@ function FriendList()
     <Paper sx={{padding:1, cursor: "pointer"}} onClick={() => setUser(name)}>
       <Stack direction={"row"} spacing={2} alignItems={"center"}>
         <Avatar>{name[0]}</Avatar>
-        <Typography>
+        <Typography variant="button">
           {name}
         </Typography>
       </Stack>

@@ -1,5 +1,6 @@
 import { createContext, useReducer } from 'react';
 import { Messaging } from '../api/Messaging.js';
+import { AuthContextProvider } from './AuthContext.jsx';
 
 export const MessagingContext = createContext(new Messaging());
 
@@ -18,8 +19,10 @@ export const MessagingProvider = ({ children }) => {
     const [state, dispatch] = useReducer(messagingReducer, messaging);
 
     return (
+	<AuthContextProvider>
         <MessagingContext.Provider value={{ messaging, state, dispatch }}>
             {children}
         </MessagingContext.Provider>
+	</AuthContextProvider>
     );
 };
