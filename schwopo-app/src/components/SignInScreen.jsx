@@ -11,7 +11,7 @@ export function SignInScreen() {
   const [email, setEmail] = useState("manull@schwopo.com");
   const [password, setPassword] = useState("manuel");
   const [message, setMessage] = useState("");
-  const { signIn } = useContext(AuthContext);
+  const { signIn, googleSignin } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -30,6 +30,20 @@ export function SignInScreen() {
     }
 
     signIn(email, password, onSuccess, onFailure);
+  };
+
+  const handleGoogleSignIn = () => {
+    const onSuccess = () => {
+      console.log("Google sign in successful");
+      navigate("/chat");
+    };
+
+    const onFailure = (message) => {
+      console.log("Google sign in failed");
+      setMessage(message);
+    };
+
+    googleSignin(onSuccess, onFailure);
   };
 
   return (
@@ -54,6 +68,9 @@ export function SignInScreen() {
         />
         <Button onClick={handleSignIn}>
           Sign In
+        </Button>
+        <Button onClick={handleGoogleSignIn}>
+          Sign In with Google
         </Button>
 
       <Typography variant="body2" color="error">

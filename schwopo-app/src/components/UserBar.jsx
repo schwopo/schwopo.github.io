@@ -5,10 +5,11 @@ import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import { AuthContext } from "./AuthContext";
+import ChangeNameInput from "./ChangeNameInput";
 
 export function UserBar() {
   const { state } = useContext(AuthContext);
-  const user = state.loggedInUser || "No user body";
+  const user = state.username || "No user body";
 
   return (
     <>
@@ -17,6 +18,7 @@ export function UserBar() {
           <Stack direction="row" spacing={2} alignItems={"center"}>
             <Avatar>{user[0]}</Avatar>
             <Typography variant="button">{user}</Typography>
+            <ChangeNameInput />
           </Stack>
         </Toolbar>
       </AppBar>

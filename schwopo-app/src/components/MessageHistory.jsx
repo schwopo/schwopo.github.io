@@ -7,12 +7,18 @@ import Typography from '@mui/material/Typography';
 import {getApp} from "firebase/app"; 
 import {getFirestore, collection, addDoc, getDocs, where} from "firebase/firestore"; 
 
-async function fetchMessages(activePartnerId) {
+
+function MessageHistory() {
+  const { state } = useContext(MessagingContext);
+  const { state: authState } = useContext(MessagingContext);
+
+  const [messageList, setMessageList] = useState([]);
+  const fetchMessages = async (activePartnerId) => {
     const db = getFirestore(getApp());
 
     const querySnapshot = await getDocs(
       collection(db, "messages"),
-      where("participants", "array-contains", "manull") // HEEEEEEEEEEEEEEEEEEEEEY USE REAL USER ID HERE
+      where("participants", "array-contains", authState.loggedInUser)
     );
 
     console.log("Messages fetched successfully");
@@ -32,10 +38,6 @@ async function fetchMessages(activePartnerId) {
 
     return messages;
 }
-
-function MessageHistory() {
-  const { state } = useContext(MessagingContext);
-  const [messageList, setMessageList] = useState([]);
 
   useEffect(() => {
     setMessageList([]);

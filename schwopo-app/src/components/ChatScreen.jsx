@@ -25,7 +25,7 @@ function ChatScreen() {
             <Grid size={8}>
               <Paper sx={{ height: "100%", padding: 2 }}>
                 <Stack sx={{ height: "100%" }}>
-                  <MessageHistory />
+                    <MessageHistory />
                     <MessageInput />
                 </Stack>
               </Paper>

@@ -1,13 +1,20 @@
 import React, { useState, useContext } from "react";
 import TextField from "@mui/material/TextField";
 import { MessagingContext } from "./MessagingContext.js";
+import { AuthContext } from "./AuthContext.jsx";
 
 import {getApp} from "firebase/app"; 
 import {getFirestore, collection, setDoc, addDoc, getDocs, where, arrayUnion} from "firebase/firestore"; 
 
-async function sendMessage(message, activePartnerId) {
+
+export function MessageInput() {
+  const [input, setInput] = useState("");
+  const { state } = useContext(MessagingContext);
+  const { state: authState } = useContext(AuthContext);
+
+const sendMessage = async (message, activePartnerId) => {
   const db = getFirestore(getApp());
-  var querySnapshot = await getDocs(collection(db, "messages"), where("participants", "array-contains", "manull")); // HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEY Replace "manull" with the actual user ID
+  var querySnapshot = await getDocs(collection(db, "messages"), where("participants", "array-contains", authState.loggedInUser));
   console.log("Query snapshot:", querySnapshot);
   querySnapshot = querySnapshot.docs.filter(doc => doc.data().participants.includes(activePartnerId));
   console.log("Query snapshot after filter:", querySnapshot);
@@ -16,10 +23,10 @@ async function sendMessage(message, activePartnerId) {
 
   if (querySnapshot.length === 0) {
     // If no message document exists for the user, create one
-    await addDoc(collection(db, "messages"), {
-      participants: ["manull", activePartnerId], // HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEY Replace "manull" with the actual user ID
+    docRef = await addDoc(collection(db, "messages"), {
+      participants: [authState.loggedInUser, activePartnerId], 
     });
-    console.log("Created new message document for participants:", ["manull", activePartnerId]);
+    console.log("Created new message document for participants:", [authState.loggedInUser, activePartnerId]);
   }
   else {
     // If a message document exists, use the first one
@@ -29,13 +36,9 @@ async function sendMessage(message, activePartnerId) {
   }
 
   await setDoc(docRef, {
-    messages: arrayUnion({ author: "manull", content: message }) // HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEY Replace "manull" with the actual user ID
+    messages: arrayUnion({ author: authState.username, content: message })
   }, { merge: true });
 }
-
-export function MessageInput() {
-  const [input, setInput] = useState("");
-  const { state } = useContext(MessagingContext);
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && input.trim() !== "") {
