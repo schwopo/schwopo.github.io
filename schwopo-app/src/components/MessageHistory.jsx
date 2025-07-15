@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import { useContext, useEffect, useState } from 'react';
 import Message from "./Message.jsx";
 import { MessagingContext } from './MessagingContext.js';
+import { AuthContext } from './AuthContext.jsx';
 import Typography from '@mui/material/Typography';
 import {getApp} from "firebase/app"; 
 import {getFirestore, collection, addDoc, getDocs, where} from "firebase/firestore"; 
@@ -10,15 +11,14 @@ import {getFirestore, collection, addDoc, getDocs, where} from "firebase/firesto
 
 function MessageHistory() {
   const { state } = useContext(MessagingContext);
-  const { state: authState } = useContext(MessagingContext);
+  const { state: authState } = useContext(AuthContext);
 
   const [messageList, setMessageList] = useState([]);
   const fetchMessages = async (activePartnerId) => {
     const db = getFirestore(getApp());
 
     const querySnapshot = await getDocs(
-      collection(db, "messages"),
-      where("participants", "array-contains", authState.loggedInUser)
+      collection(db, "messages")
     );
 
     console.log("Messages fetched successfully");
@@ -26,13 +26,18 @@ function MessageHistory() {
     var messages = [];
 
     querySnapshot.forEach((doc) => {
+      console.log("Checking document:", doc.id);
+      console.log("Document data:", doc.data());
+      console.log("Participants in document:", doc.data().participants);
+      console.log("Active partner ID:", activePartnerId);
+      console.log("Logged-in user:", authState.loggedInUser);
+      // Check if the active partner ID is in the participants array
+      // and if the logged-in user is also in the participants array  
 
-      console.log(`${doc.id} =>`, doc.data());
-
-      if (doc.data().participants.includes(activePartnerId)) {
-        console.log( "Found messages for active partner:", activePartnerId);
-        console.log( "Found messages:", doc.data().messages);
+      if (doc.data().participants.includes(activePartnerId)
+        && doc.data().participants.includes(authState.loggedInUser)) {
         messages = doc.data().messages;
+      console.log("Found messages for active partner:", activePartnerId);
       }
     });
 
